@@ -1,0 +1,47 @@
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="ModalLabel">Popular questions of the author: {{authorName}}</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-reflow table-overflwow" >
+          <tr>
+            <th>Theme</th>
+            <th>Answers</th>
+            <th>Tags</th>
+          </tr>
+          <tr *ngFor="let author of authorData.items">
+            <td class="theme"><a href="">{{author.title}}</a></td>
+            <td class="answers"><span class="answers_count"><a href="">{{author.answer_count}}</a></span></td>
+            <td class="tags">
+              <a href="" *ngFor="let tag of author.tags" data-bs-toggle="modal" data-bs-target="#TagModal">{{tag}}</a>
+            </td>
+          </tr>
+        </table>
+        <table class="table table-reflow table-overflwow" >
+          <tr>
+            <th>Author</th>
+            <th>Theme</th>
+            <th>Answers</th>
+          </tr>
+          <tr *ngFor="let tag of tagData.items">
+            <td class="author-theme">
+              <img src="{{tag.owner.profile_image}}">
+              <a href=""
+                 data-bs-toggle="modal"
+                 data-bs-target="#AuthorModal"
+              >{{tag.owner.display_name}}</a>
+            </td>
+            <td class="theme"><a href="">{{tag.title}}</a></td>
+            <td class="answers"><span class="answers_count"><a href="">{{tag.answer_count}}</a></span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{{her}}
+{{isAnswerItems}}
+<div *ngIf="isAnswerItems">
+  tut
+<table class="table table-reflow table-overflwow" >
+  <tr>
+    <th>Author</th>
+    <th>Theme</th>
+    <th>Answers</th>
+    <th>Tags</th>
+  </tr>
+  <tr *ngFor="let item of AnswersData.items">
+    <td class="author-theme">
+      <img src="{{item.owner.profile_image}}">
+      <a href=""
+         data-bs-toggle="modal"
+         data-bs-target="#AuthorModal"
+      >{{item.owner.display_name}}</a>
+    </td>
+    <td class="theme">
+      <a routerLink="/search/q/{{AnswersData.question_id}}/{{item.link}}">{{item.title}}</a>
+    </td>
+    <td class="answers"><span class="answers_count"><a href="">{{item.answer_count}}</a></span></td>
+  </tr>
+</table>
+</div>

@@ -1,0 +1,87 @@
+<!-- Sign up form -->
+<section class="signup">
+  <div class="container">
+    <div class="signup-content">
+      <div class="signup-form">
+        <h2 class="form-title">Sign up</h2>
+        <form class="register-form" id="register-form" [formGroup]="form" (submit)='onSubmit()'>
+          <div class="form-group">
+            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+            <input type="text" name="name" id="name" placeholder="Your Name"/>
+          </div>
+          <div class="form-group">
+            <label for="email"><i class="zmdi zmdi-email"></i></label>
+            <input
+              formControlName="email"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Your Email *"
+              [ngClass]="{'invalid': form.get('email')?.invalid && form.get('email')?.touched}"
+            >
+            <span
+              class="helper-text red-text"
+              *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+              <small class="text-danger" *ngIf="form.get('email')?.hasError('required')">
+                Email is required!
+              </small>
+              <small class="text-danger" *ngIf="form.get('email')?.hasError('email')">
+                E-mail is must be correct!
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+            <input
+              formControlName="password"
+              type="password"
+              name="pass"
+              id="pass"
+              placeholder="Password *"
+            >
+            <span
+              class="helper-text red-text"
+              *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+              <small class="text-danger" *ngIf="form.get('password')?.hasError('required')">
+                Password is required!
+              </small>
+              <small class="text-danger" *ngIf="form.get('password')?.hasError('minlength')">
+                Min length Password is  symbols {{passSymbols()}}. Now {{actualPassSymbols()}}
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+            <input
+              formControlName="rePassword"
+              type="password"
+              name="re_pass"
+              id="re_pass"
+              placeholder="Repeat your password *"
+            >
+            <span
+              class="helper-text red-text"
+              *ngIf="form.get('rePassword')?.invalid && form.get('rePassword')?.touched">
+              <small class="text-danger" *ngIf="form.get('rePassword')?.hasError('required')">
+                Password is required!
+              </small>
+              <small class="text-danger" *ngIf="form.get('rePassword')?.hasError('minlength')">
+                Min length Password is  symbols {{rePassSymbols()}}. Now {{actualrePassSymbols()}}
+              </small><br>
+              <small class="text-danger" *ngIf="checkPassword()">
+                Passwords do not match
+              </small>
+            </span>
+          </div>
+          <div class="form-group form-button">
+            <button type="submit" name="signin" id="signin" class="btn form-submit" [disabled]="form.invalid || form.disabled">Register</button>
+          </div>
+        </form>
+      </div>
+      <div class="signup-image">
+        <figure><img src="assets/img/signup-image.jpg" alt="sing up image"></figure>
+        <a routerLink="/login" class="signup-image-link">I am already member</a>
+      </div>
+    </div>
+  </div>
+</section>

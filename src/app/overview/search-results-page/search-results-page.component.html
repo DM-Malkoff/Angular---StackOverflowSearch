@@ -14,23 +14,26 @@
         <img src="{{item.owner.profile_image}}">
         <a href=""
            data-bs-toggle="modal"
-           data-bs-target="#Modal"
+           data-bs-target="#authorModal"
            (click)="passAuthorData(item.owner.user_id, item.owner.display_name)"
         >{{item.owner.display_name}}</a>
       </td>
       <td class="theme">
         <a routerLink="/search/q/{{item.question_id}}/{{item.link}}" (click)="passQuestionId(item.question_id)">{{item.title}}</a>
       </td>
-      <td class="answers"><span class="answers_count"><a href="">{{item.answer_count}}</a></span></td>
+      <td class="answers"><span class="answers_count"><span *ngIf="item.answer_count==0">0</span><a href="" *ngIf="item.answer_count>0">{{item.answer_count}}</a></span></td>
       <td class="tags">
             <a href=""
                *ngFor="let tag of item.tags"
                data-bs-toggle="modal"
-               data-bs-target="#Modal"
+               data-bs-target="#tagModal"
                (click)="passTagData(tag)"
             >{{tag}}</a>
       </td>
     </tr>
   </table>
 </div>
-<app-search-page-modal [tagName]="tagName" [authorName] = "authorName"></app-search-page-modal>
+
+<app-tag-modal [tagClicked]="tagClicked" [tagName]="tagName"></app-tag-modal>
+<app-search-page-modal [authorName]  = "authorName"></app-search-page-modal>
+

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {StackExchangeService} from "../shared/services/se-api.service";
+import {StackExchangeService} from "../../shared/services/se-api.service";
 import {Subject, Subscription} from "rxjs";
-import {conditionallyCreateMapObjectLiteral} from "@angular/compiler/src/render3/view/util";
 
 @Component({
   selector: 'app-search-results-page',
@@ -39,6 +38,7 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   isTagItems = false
   isAuthorItems = false
   authorClicked = false
+  tagClicked = false
   questionId=''
 
   constructor(
@@ -97,7 +97,6 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
     console.log("From Parent", this.authorId)
     this.stackExchangeService.getAuthorQuestions(this.authorId).subscribe((apiAuthors)=>{
       this.apiAuthors$.next(apiAuthors)
-      console.log("666", this.apiTags$)
     })
   }
 
@@ -105,8 +104,7 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
     this.tagName = tagName
     console.log("Tag from Parent", this.tagName)
     this.stackExchangeService.getTagQuestions(this.tagName).subscribe((apiTags) => {
-        this.apiTags$.next(apiTags)
-        console.log("555", this.apiTags$)
+      this.apiTags$.next(apiTags)
     })
   }
   passQuestionId(questionId:string): void{

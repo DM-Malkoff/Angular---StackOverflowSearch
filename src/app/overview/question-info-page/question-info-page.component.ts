@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {StackExchangeService} from "../shared/services/se-api.service";
+import {StackExchangeService} from "../../shared/services/se-api.service";
 import {Subscription} from "rxjs";
 
 @Component({

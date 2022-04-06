@@ -15,11 +15,11 @@
 .author-theme a:hover{
   border-bottom: 0
 }
-.table-overflwow a{color:navy; padding: 0}
-.table-overflwow a:hover{
+.table-overflow a{color:navy; padding: 0}
+.table-overflow a:hover{
   text-decoration: none;
 }
-.table-overflwow .tags a{
+.table-overflow .tags a{
   color: hsl(0deg 0% 100%);
   background-color: lightsteelblue;
   border-color: transparent;
@@ -35,10 +35,10 @@
   border-style: solid;
   border-radius: 3px;
 }
-.table-overflwow .tags a:hover{
+.table-overflow .tags a:hover{
   color:hsl(205deg 46% 32%)
 }
-.table-overflwow .answers{text-align: center}
+.table-overflow .answers{text-align: center}
 .answers_count a{
   border-radius: 15px;
   /* padding: 5px 13px; */
@@ -53,4 +53,7 @@
 }
 .answers_count a:hover{
   background-color: darkseagreen;
+}
+.modal-title span{
+  color: chocolate;
 }

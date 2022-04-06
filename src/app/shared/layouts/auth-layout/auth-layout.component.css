@@ -1,0 +1,10 @@
+.top-panel .container{
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+}
+.top-panel .logo{
+  padding-left: 20px;
+}

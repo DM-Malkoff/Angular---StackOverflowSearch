@@ -1,0 +1,59 @@
+.author-theme{
+  white-space: nowrap;
+  padding-right: 20px;
+}
+.author-theme img{
+  width:15px;
+  padding: 0;
+  margin: 5px 15px;
+}
+.author-theme a{
+  padding: 0;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+.author-theme a:hover{
+  border-bottom: 0
+}
+.table-overflow a{color:navy; padding: 0}
+.table-overflow a:hover{
+  text-decoration: none;
+}
+.table-overflow .tags a{
+  color: hsl(0deg 0% 100%);
+  background-color: lightsteelblue;
+  border-color: transparent;
+  display: inline-block;
+  padding: 0.4em 0.5em;
+  margin: 2px 2px 2px 0;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
+}
+.table-overflow .tags a:hover{
+  color:hsl(205deg 46% 32%)
+}
+.table-overflow .answers{text-align: center}
+.answers_count a{
+  border-radius: 15px;
+  /* padding: 5px 13px; */
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color: lavender;
+  margin: 5px 0;
+  display: inline-block;
+  line-height: 25px;
+  text-decoration:none;
+}
+.answers_count a:hover{
+  background-color: darkseagreen;
+}
+.modal-title span{
+  color: #0d6efd;
+}

@@ -4,18 +4,19 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from './app-routing.module';
 
 import {AppComponent} from './app.component';
-import {LoginPageComponent} from './login-page/login-page.component';
+import {LoginPageComponent} from './authorize/login-page/login-page.component';
 import {AuthLayoutComponent} from './shared/layouts/auth-layout/auth-layout.component';
 import {SiteLayoutComponent} from './shared/layouts/site-layout/site-layout.component';
-import {RegisterPageComponent} from './register-page/register-page.component';
-import {OverviewPageComponent} from './overview-page/overview-page.component';
-import {SearchComponent} from './search/search.component';
-import {SearchResultsPageComponent} from './search-results-page/search-results-page.component';
+import {RegisterPageComponent} from './authorize/register-page/register-page.component';
+import {SearchComponent} from './overview/search/search.component';
+import {SearchResultsPageComponent} from './overview/search-results-page/search-results-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {QuestionInfoPageComponent} from './question-info-page/question-info-page.component';
+import {QuestionInfoPageComponent} from './overview/question-info-page/question-info-page.component';
 import {HttpClientModule} from "@angular/common/http";
 import {PageNotFoundComponentComponent} from './page-not-found-component/page-not-found-component.component';
-import { SearchPageModalComponent } from './search-page-modal/search-page-modal.component';
+import {AuthorModalComponent} from './overview/search-page-modal/author-modal/author-modal.component';
+import { TagModalComponent } from './overview/search-page-modal/tag-modal/tag-modal.component';
+import { PasswordRecoveryComponent } from './authorize/password-recovery/password-recovery.component';
 
 @NgModule({
   declarations: [
@@ -24,12 +25,13 @@ import { SearchPageModalComponent } from './search-page-modal/search-page-modal.
     AuthLayoutComponent,
     SiteLayoutComponent,
     RegisterPageComponent,
-    OverviewPageComponent,
     SearchComponent,
     QuestionInfoPageComponent,
     SearchResultsPageComponent,
     PageNotFoundComponentComponent,
-    SearchPageModalComponent,
+    AuthorModalComponent,
+    TagModalComponent,
+    PasswordRecoveryComponent,
 
   ],
   imports: [

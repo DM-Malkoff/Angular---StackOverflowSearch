@@ -1,10 +1,14 @@
 <div class="main">
 <nav>
   <div class="top-panel top-panel-authorized  shadow-lg">
-    <ul>
-      <li><a routerLink="">LogOut</a></li>
-      <li><a routerLink="">Test</a></li>
-    </ul>
+    <div class="container">
+      <div class="logo">
+        <a routerLink="/login"><img src="assets/img/sofs.png"></a>
+      </div>
+      <ul>
+        <li><a routerLink="" (click)="logOut()">LogOut</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
   <div class="container">

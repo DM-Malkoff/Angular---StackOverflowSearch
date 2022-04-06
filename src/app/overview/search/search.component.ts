@@ -1,5 +1,5 @@
 import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
-import {StackExchangeService} from "../shared/services/se-api.service";
+import {StackExchangeService} from "../../shared/services/se-api.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 

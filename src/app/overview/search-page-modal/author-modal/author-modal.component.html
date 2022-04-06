@@ -1,0 +1,29 @@
+<div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="ModalLabel">Popular questions of the author: <span>{{authorName}}</span></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table *ngIf="authorClicked" class="table table-reflow table-overflow" >
+          <tr>
+            <th>Theme</th>
+            <th>Answers</th>
+            <th>Tags</th>
+          </tr>
+          <tr *ngFor="let author of authorData.items">
+            <td class="theme"><a href="">{{author.title}}</a></td>
+            <td class="answers"><span class="answers_count"><a href="">{{author.answer_count}}</a></span></td>
+            <td class="tags">
+              <a href="" *ngFor="let tag of author.tags" data-bs-toggle="modal" data-bs-target="#tagModal">{{tag}}</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

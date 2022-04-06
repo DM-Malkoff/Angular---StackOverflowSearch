@@ -1,10 +1,15 @@
 <div class="main">
   <nav>
     <div class="top-panel shadow-lg">
-      <ul>
-        <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
-        <li routerLinkActive="active"><a routerLink="/register">Register</a></li>
-      </ul>
+      <div class="container">
+        <div class="logo">
+          <a routerLink="/login"><img src="assets/img/sofs.png"></a>
+        </div>
+        <ul>
+          <li routerLinkActive="active"><a routerLink="/login">Sign In</a></li>
+          <li routerLinkActive="active"><a routerLink="/register">Sign Up</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
   <router-outlet></router-outlet>

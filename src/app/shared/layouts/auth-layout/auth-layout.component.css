@@ -8,3 +8,5 @@
 .top-panel .logo{
   padding-left: 20px;
 }
+.top-panel ul{margin-top: 5px}
+.top-panel a:hover{text-decoration: none}

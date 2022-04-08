@@ -18,8 +18,12 @@ export class AuthService{
 
   }
 
-  register(user: Users){
-
+  register(user: Users):Observable<boolean>{
+    let isRegistered = true
+    if (user.email === actualUser.email){
+      isRegistered = false
+    }
+    return of(isRegistered)
   }
   forgot(user: Users):Observable<boolean>{
     let isError = false
@@ -49,7 +53,13 @@ export class AuthService{
   }
   isAuthenticated():boolean{
     //console.log("check token ",this.token)
-    return !!this.token
+    //console.log("localstorage: ",localStorage.getItem('auth-token'))
+    if (localStorage.getItem('auth-token')){
+      return true
+    }
+    else{
+      return false
+    }
   }
   logout(){
     this.setToken('');

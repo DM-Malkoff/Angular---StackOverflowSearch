@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-register-page',
@@ -10,8 +11,14 @@ import {AuthService} from "../../shared/services/auth.service";
 export class RegisterPageComponent implements OnInit {
 
   form = new FormGroup({})
+  isRegistered = false
+  errorMessage=''
 
-  constructor(private auth: AuthService) {
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
@@ -49,7 +56,18 @@ export class RegisterPageComponent implements OnInit {
   }
 
   onSubmit() {
-
-    this.auth.register(this.form.value)
+    this.auth.register(this.form.value).subscribe((response) =>{
+      this.isRegistered = response;
+      if (this.isRegistered){
+        this.router.navigate(['/login'], {
+          queryParams: {
+            registered: true
+          }
+        })
+      }
+      else{
+        this.errorMessage='User with this Email is already exist'
+      }
+    })
   }
 }

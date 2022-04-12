@@ -21,6 +21,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   isLogined=false
   error = ''
   loginError=''
+  regMessage = ''
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -37,9 +38,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(
       (params)=>{
         if (params['registered']){
-          //Теперь вы можете зайти в систему используя свои данные
+          this.regMessage ='Enter you verification data'
         }else if(params['accessDenied']){
-          this.loginError = "Before using this service you must Login"
+          this.loginError = 'Before using this service you must Login'
         }
       }
     )

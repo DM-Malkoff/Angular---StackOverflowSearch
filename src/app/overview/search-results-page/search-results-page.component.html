@@ -19,9 +19,9 @@
         >{{item.owner.display_name}}</a>
       </td>
       <td class="theme">
-        <a routerLink="/search/q/{{item.question_id}}/{{item.link}}" (click)="passQuestionId(item.question_id)">{{item.title}}</a>
+        <a routerLink="/questions/{{item.question_id}}/{{item.link}}">{{item.title}}</a>
       </td>
-      <td class="answers"><span class="answers_count"><span *ngIf="item.answer_count==0">0</span><a href="" *ngIf="item.answer_count>0">{{item.answer_count}}</a></span></td>
+      <td class="answers"><span class="answers_count"><a routerLink="/questions/{{item.question_id}}/{{item.link}}">{{item.answer_count}}</a></span></td>
       <td class="tags">
             <a href=""
                *ngFor="let tag of item.tags"

@@ -1,23 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css']
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent implements OnInit, OnDestroy {
 
   form = new FormGroup({})
   isRegistered = false
   errorMessage=''
+  // @ts-ignore
+  aSub: Subscription
 
   constructor(
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
   ) {
   }
 
@@ -31,6 +33,11 @@ export class RegisterPageComponent implements OnInit {
     )
   }
 
+  ngOnDestroy() {
+    if (this.aSub){
+      this.aSub.unsubscribe()
+    }
+  }
   passSymbols() {
     // @ts-ignore
     return this.form.get('password')?.errors['minlength'].requiredLength
@@ -56,7 +63,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth.register(this.form.value).subscribe((response) =>{
+    this.aSub = this.auth.register(this.form.value).subscribe((response) =>{
       this.isRegistered = response;
       if (this.isRegistered){
         this.router.navigate(['/login'], {

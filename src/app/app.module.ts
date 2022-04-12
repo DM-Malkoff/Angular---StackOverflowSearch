@@ -17,6 +17,9 @@ import {PageNotFoundComponentComponent} from './page-not-found-component/page-no
 import {AuthorModalComponent} from './overview/search-page-modal/author-modal/author-modal.component';
 import { TagModalComponent } from './overview/search-page-modal/tag-modal/tag-modal.component';
 import { PasswordRecoveryComponent } from './authorize/password-recovery/password-recovery.component';
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { PasswordRecoveryComponent } from './authorize/password-recovery/passwor
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule
 
   ],
   bootstrap: [AppComponent],

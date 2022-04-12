@@ -27,7 +27,7 @@ const routes: Routes = [
       {path: 'search', component: SearchComponent, pathMatch: 'full'},
       {path: 'search-results-page', component: SearchResultsPageComponent},
       {path: 'search/q/:searchQuery', component: SearchResultsPageComponent},
-      {path: 'search/q/:questionId/:question', component: QuestionInfoPageComponent},
+      {path: 'questions/:questionId/:someQuestion', component: QuestionInfoPageComponent},
     ]
   },
   {

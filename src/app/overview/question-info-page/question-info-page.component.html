@@ -1,26 +1,53 @@
-{{her}}
-{{isAnswerItems}}
-<div *ngIf="isAnswerItems">
-  tut
-<table class="table table-reflow table-overflwow" >
-  <tr>
-    <th>Author</th>
-    <th>Theme</th>
-    <th>Answers</th>
-    <th>Tags</th>
-  </tr>
-  <tr *ngFor="let item of AnswersData.items">
-    <td class="author-theme">
-      <img src="{{item.owner.profile_image}}">
-      <a href=""
-         data-bs-toggle="modal"
-         data-bs-target="#AuthorModal"
-      >{{item.owner.display_name}}</a>
-    </td>
-    <td class="theme">
-      <a routerLink="/search/q/{{AnswersData.question_id}}/{{item.link}}">{{item.title}}</a>
-    </td>
-    <td class="answers"><span class="answers_count"><a href="">{{item.answer_count}}</a></span></td>
-  </tr>
-</table>
+<div class="question-clock">
+  <div class="top-line">
+    <h1>{{questionTitle}}</h1>
+    <a routerLink="/search" (click)="returnBack()"><mat-icon>undo</mat-icon> Return to search</a>
+  </div>
+  <div class="stats-line">
+    <span>Viewed {{viewCount}} times</span>
+  </div>
+
+  <div class="question-body" [innerHTML]="questionBody"></div>
+  <div class="question-bottom">
+    <div class="tags">
+      <a routerLink="" *ngFor="let tag of questionTags">{{tag}}</a>
+    </div>
+    <div class="author">
+      <img src="{{questionAuthorImg}}">
+      <div class="right">
+        <span class="author-name">{{questionAuthorName}}</span>
+        <span class="reputation">{{questionAuthorReputation}}</span>
+      </div>
+    </div>
+  </div>
 </div>
+<div class="line_sort">
+  <h2>{{answersDataLength}} Answers</h2>
+  <mat-form-field appearance="fill" *ngIf="+answersDataLength > 0">
+    <mat-label>Select an option</mat-label>
+    <mat-select disableRipple>
+      <mat-option value="1">Option 1</mat-option>
+      <mat-option value="2">Option 2</mat-option>
+      <mat-option value="3">Option 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div *ngIf="isAnswerItems">
+  <div class="answers" *ngFor="let item of answersData.items; index as i" >
+    <div class="answer-block">
+      <div class="num-answer"><span>{{i+1}}</span></div>
+      <div class="answer">
+        <div class="answer-body" [innerHTML]="item.body"></div>
+          <div class="answer-author">
+            <div class="author">
+              <img src="{{item.owner.profile_image}}">
+              <div class="right">
+                <span class="author-name"><a routerLink="">{{item.owner.display_name}}</a></span>
+                <span class="reputation">{{item.owner.reputation}}</span>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+

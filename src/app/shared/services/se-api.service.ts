@@ -14,6 +14,7 @@ export class StackExchangeService {
   apiAuthorSearch:any
   apiTagSearch:any
   apiAnswersSearch:any
+  apiQuestionSearch:any
   isItems = false
   queryError = false
   site = 'stackoverflow'
@@ -27,6 +28,7 @@ export class StackExchangeService {
   public apiAuthorSearch$ = new Subject();
   public apiTagSearch$ = new Subject();
   public apiAnswersSearch$ = new Subject();
+  public apiQuestionSearch$ = new Subject();
 
   getSearchResult(searchQuery: string) {
     this.apiUrlSearch = this.httpClient.get(`${this.apiUrl}${searchQuery}&site=${this.site}`)
@@ -39,9 +41,13 @@ export class StackExchangeService {
   getTagQuestions(tagName: string){
     return this.httpClient.get(`${this.apiTagUrl}${tagName}/faq?site=${this.site}`)
   }
+  getQuestionInfo(questionId:string){
+    this.apiQuestionSearch = this.httpClient.get(`${this.apiAnswersUrl}${questionId}?order=desc&sort=activity&site=stackoverflow&filter=withbody`)
+    this.apiQuestionSearch$.next(this.apiQuestionSearch)
+  }
   getAnswers(questionId:string){
-    this.apiAnswersSearch = this.httpClient.get(`${this.apiAnswersUrl}${questionId}/answers?order=desc&sort=activity&site=${this.site}`)
+    this.apiAnswersSearch = this.httpClient.get(`${this.apiAnswersUrl}${questionId}/answers?order=desc&sort=activity&site=${this.site}&filter=withbody`)
     this.apiAnswersSearch$.next(this.apiAnswersSearch)
-    console.log("111",`${this.apiAnswersUrl}${questionId}/answers?order=desc&sort=activity&site=${this.site}`)
+    console.log("111",`${this.apiAnswersUrl}${questionId}/answers?order=desc&sort=activity&site=${this.site}&filter=withbody`)
   }
 }

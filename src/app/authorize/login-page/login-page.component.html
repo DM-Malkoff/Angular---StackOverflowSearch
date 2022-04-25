@@ -8,6 +8,7 @@
       </div>
 
       <div class="signin-form">
+        <div *ngIf="regMessage" class="txt-warn">{{regMessage}}</div>
         <div *ngIf="loginError" class="txt-warn">{{loginError}}</div>
         <h2 class="form-title">Sign in</h2>
         <form class="register-form" id="login-form" [formGroup]="form" (submit)="onSubmit()">

@@ -222,7 +222,7 @@ body {
 .top-panel{
   display: flex;
   justify-content: center;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   padding: 15px 0;
 }
 .top-panel ul{margin: 0}

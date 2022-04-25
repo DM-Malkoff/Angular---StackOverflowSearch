@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {SearchResultsPageComponent} from "../../search-results-page/search-results-page.component";
 import {Subscription} from "rxjs";
+import {StackExchangeService} from "../../../shared/services/se-api.service";
 
 @Component({
   selector: 'app-tag-modal',
@@ -10,29 +10,34 @@ import {Subscription} from "rxjs";
 export class TagModalComponent implements OnInit, OnDestroy {
   private subsTags: Subscription
 
+  @Input() tagName:any;
+  @Input() tagClicked:any;
+  @Input() fromTagClicked:any;
 
-  @Input()
-  tagName:any;
   tagData:any;
-  @Input()
-  tagClicked:any;
 
   constructor(
-    public searchResultsPageComponent:SearchResultsPageComponent
+    public seService:StackExchangeService
   ) {
-    this.subsTags = this.searchResultsPageComponent.apiTags$.subscribe((apiUrlTag: any) => {
-      console.log("1. ",this.tagClicked)
-      this.tagData = apiUrlTag
-      if (this.tagData.items){
-        this.tagClicked = true
-      }
-      console.log("2. ",this.tagClicked)
-      console.log("Hey",this.tagData)
-    });
+      this.subsTags = this.seService.apiTags$.subscribe((apiUrlTag: any) => {
+        this.tagData = apiUrlTag
+        if (this.tagData.items){
+          this.tagClicked = true
+          this.tagData.items.forEach(function (value: any) {
+            value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;", "\"")
+            value.link = value.title.replace(/[^a-zA-Z ]/g, "")
+            value.link = value.link.replaceAll(" ","-").toLowerCase( )
+          })
+        }
+      })
   }
 
   ngOnInit(): void {
 
+  }
+  closeModal(){
+    document.getElementById('closeTagModal')!.click();
+    //location.reload()
   }
   ngOnDestroy():void {
     this.subsTags.unsubscribe()

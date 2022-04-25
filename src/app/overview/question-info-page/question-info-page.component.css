@@ -20,6 +20,7 @@
   width: auto;
   max-height: 600px;
   border-radius: 10px;
+  padding: 10px 15px;
 }
 .answer-body::ng-deep a{
   overflow-wrap: anywhere;
@@ -28,7 +29,7 @@
   font-size: 13px;
   line-height: 1.30769231;
   background-color: #f6f6f6;
-
+  white-space: break-spaces;
   margin: 0;
   padding: 5px;
   overflow-wrap: anywhere;
@@ -60,10 +61,19 @@
 }
 .author{
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   background-color: #d9eaf7;
   border-radius: 3px;
   padding: 5px;
+}
+.author-bottom{
+  display: flex;
+}
+.user-action-time{
+  display: flex;
+  font-size: 11px;
+  color: darkgray;
+  margin-bottom: 5px;
 }
 .author img{
   width:40px;
@@ -102,9 +112,16 @@
   justify-content: space-between;
 }
 .stats-line{
+  display: flex;
   border-bottom: 1px solid #ddd;
   padding-bottom: 16px;
   margin-bottom: 16px;
+}
+.stats-line div{
+  margin-right: 15px;
+}
+.stats-line div span{
+  color: darkgray;
 }
 .num-answer{
   font-size: 20px;
@@ -129,6 +146,10 @@ mat-form-field::ng-deep .mat-form-field-underline{
 .top-line{
   display: flex;
   justify-content: space-between;
+}
+.top-line a{
+  white-space: nowrap;
+  margin-left: 20px;
 }
 .top-line h1{text-align: left}
 .top-line a:before{

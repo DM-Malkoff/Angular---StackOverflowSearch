@@ -1,16 +1,18 @@
+<div id="searchBlock" [@searchBlock]="clickState" [ngClass] ="{'sentQuery':sentQuery}">
 <div class="row height d-flex justify-content-center align-items-center">
   <div class="col-md-8">
     <div class="search"> <i class="fa fa-search"></i>
-      <form [formGroup]="form" (ngSubmit)="getQuestionsList()">
+      <form [formGroup]="form" id="no-gutters">
         <input
           type="text"
+          class="form-control"
           formControlName="searchQuery"
           placeholder="{{(form.get('searchQuery')?.invalid && form.get('searchQuery')?.touched) ? 'Enter a question':sentQuery}}"
           id="searchQuery"
-
           [ngClass]="{'invalid': form.get('searchQuery')?.invalid && form.get('searchQuery')?.touched}"
         >
         <button
+          (click)="buttonPress()"
           class="btn btn-primary"
           [disabled]="form.invalid || form.disabled"
         >Search</button>
@@ -18,4 +20,4 @@
     </div>
   </div>
 </div>
-
+</div>

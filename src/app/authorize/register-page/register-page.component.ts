@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-register-page',
@@ -20,7 +21,9 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private router: Router,
+    private title:Title
   ) {
+    this.title.setTitle('Sign Up - StackOverflowSearch')
   }
 
   ngOnInit() {

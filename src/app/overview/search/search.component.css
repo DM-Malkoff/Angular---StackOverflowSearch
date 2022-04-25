@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
 .height {
   height: 15vh
 }
@@ -35,3 +37,16 @@
 h1{margin: 25px 0 0}
 input.invalid::placeholder{color: red;}
 .searchError{text-align: center}
+#searchBlock{
+}
+.searchBlock{
+
+}
+.sentQuery{
+  position: static;
+  top: auto;
+  margin-top: 0;
+}
+#searchBlock .row {
+  --bs-gutter-x: 0rem;
+}

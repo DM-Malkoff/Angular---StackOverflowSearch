@@ -1,8 +1,19 @@
-<app-search [sentQuery]="sentQuery" ></app-search>
-<div *ngIf="queryError" class="searchError">Your search <strong>{{sentQuery}}</strong> did not match any documents.<br><br></div>
-
-<div *ngIf="isItems">
-<table class="table table-reflow table-overflwow" >
+<app-search [sentQuery]="sentQuery"></app-search>
+<div *ngIf="queryError" class="searchError">Your search <strong>{{sentQuery}}</strong> did not match any
+  documents.<br><br></div>
+<div *ngIf="isItems" class="container">
+  <div class="top-line" *ngIf="apiLength">
+    <div class="results-amount">About {{apiLength}} results</div>
+    <mat-form-field appearance="fill">
+      <mat-label>Sort</mat-label>
+      <mat-select disableRipple [(value)]="selectedItem" (selectionChange) = "onSortChange($event)">
+        <mat-option *ngFor="let item of sortQuestions" value="{{item.sortName}}">
+          {{item.sortText}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <table class="table table-reflow table-overflow">
     <tr>
       <th>Author</th>
       <th>Theme</th>
@@ -15,25 +26,24 @@
         <a href=""
            data-bs-toggle="modal"
            data-bs-target="#authorModal"
-           (click)="passAuthorData(item.owner.user_id, item.owner.display_name)"
+           (click)="sendAuthorData(item.owner.user_id, item.owner.display_name)"
         >{{item.owner.display_name}}</a>
       </td>
       <td class="theme">
         <a routerLink="/questions/{{item.question_id}}/{{item.link}}">{{item.title}}</a>
       </td>
-      <td class="answers"><span class="answers_count"><a routerLink="/questions/{{item.question_id}}/{{item.link}}">{{item.answer_count}}</a></span></td>
+      <td class="answers"><span class="answers_count"><a
+        routerLink="/questions/{{item.question_id}}/{{item.link}}">{{item.answer_count}}</a></span></td>
       <td class="tags">
-            <a href=""
-               *ngFor="let tag of item.tags"
-               data-bs-toggle="modal"
-               data-bs-target="#tagModal"
-               (click)="passTagData(tag)"
-            >{{tag}}</a>
+        <a href=""
+           *ngFor="let tag of item.tags"
+           data-bs-toggle="modal"
+           data-bs-target="#tagModal"
+           (click)="sendTagData(tag)"
+        >{{tag}}</a>
       </td>
     </tr>
   </table>
+  <app-tag-modal [tagClicked]="tagClicked" [tagName]="tagName"></app-tag-modal>
+  <app-search-page-modal [authorName]="authorName"></app-search-page-modal>
 </div>
-
-<app-tag-modal [tagClicked]="tagClicked" [tagName]="tagName"></app-tag-modal>
-<app-search-page-modal [authorName]  = "authorName"></app-search-page-modal>
-

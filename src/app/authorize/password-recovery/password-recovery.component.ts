@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {Subscription} from "rxjs";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-password-recovery',
@@ -16,7 +17,11 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   resultMessage = ''
   isError=true
 
-  constructor(private auth:AuthService) {
+  constructor(
+    private auth:AuthService,
+    private title: Title
+  ) {
+    this.title.setTitle('Password Recovery - StackOverflowSearch')
   }
 
   ngOnInit(): void {

@@ -3,14 +3,13 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-
-
 
 export class LoginPageComponent implements OnInit, OnDestroy {
 
@@ -23,10 +22,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loginError=''
   regMessage = ''
 
-  constructor(private auth: AuthService,
-              private router: Router,
-              private route: ActivatedRoute) {
-
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private title: Title
+  ) {
+    this.title.setTitle('Sign In - StackOverflowSearch')
   }
 
   ngOnInit() {
@@ -71,11 +73,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log("access denied")
         }
       }
-      ,
-      // error => {
-      //   console.warn("warn",error)
-      //   this.form.enable()
-      // }
     )
   }
   ngOnDestroy() {

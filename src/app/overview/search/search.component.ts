@@ -1,16 +1,19 @@
-import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {StackExchangeService} from "../../shared/services/se-api.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import {searchFormMove} from "../../shared/animations/app.animations";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  animations: [searchFormMove]
 })
 export class SearchComponent implements OnInit{
-  @Input()
-  sentQuery = '';
+  @Input() sentQuery = '';
+  @Output() onClickSearch = new EventEmitter()
   searchQuery = '';
   paramQuery='';
   isItems = false;
@@ -18,13 +21,16 @@ export class SearchComponent implements OnInit{
   // @ts-ignore
   form: FormGroup;
   query = ''
+  clickState='end'
 
   constructor(
     private stackExchangeService: StackExchangeService,
     private router: Router,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    private title:Title
 
   ) {
+    this.title.setTitle('Search from StackOverflow')
   }
   ngOnInit() {
     let paramQuery = this.activatedRoute.snapshot.paramMap.get("searchQuery")
@@ -40,6 +46,7 @@ export class SearchComponent implements OnInit{
           searchQuery: new FormControl( this.sentQuery, [Validators.required])
         }
       )
+      this.clickState='start'
     }
   }
   getQuestionsList() {
@@ -54,4 +61,13 @@ export class SearchComponent implements OnInit{
       this.stackExchangeService.getSearchResult(this.searchQuery)
     })
   }
+  buttonPress(){
+    this.clickState='end';
+    this.onClickSearch.emit();
+    setTimeout(() => {
+        this.getQuestionsList()
+      },
+      500)
+  }
+
 }

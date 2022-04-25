@@ -1,11 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StackExchangeService} from "../../shared/services/se-api.service";
 import {Subject, Subscription} from "rxjs";
+import {SortService} from "../../shared/services/sort.service";
+import {Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
+import {CleaningCodeService} from "../../shared/services/cleaning-code.service";
 
 @Component({
   selector: 'app-search-results-page',
   templateUrl: './search-results-page.component.html',
-  styleUrls: ['./search-results-page.component.css']
+  styleUrls: ['./search-results-page.component.css'],
+  //animations: [showTable]
 })
 
 export class SearchResultsPageComponent implements OnInit, OnDestroy {
@@ -13,13 +18,11 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   private subsApiObject: Subscription
   private subsAuthor: Subscription
   private subsTag: Subscription
-  public apiTags$ = new Subject();
-  public apiAuthors$ = new Subject();
+
 
   sentQuery = '';
   searchQuery = '';
   paramQuery = '';
-  questionLink:any;
   apiTags:any;
 
   getApiTagObject: any;
@@ -37,15 +40,22 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   authorName = ''
   isTagItems = false
   isAuthorItems = false
-  authorClicked = false
   tagClicked = false
   questionId=''
+  apiLength=''
+  selectedItem = ''
+  sortQuestions = this.sortService.sortQuestions
 
   constructor(
     private stackExchangeService: StackExchangeService,
+    private sortService: SortService,
+    private cleaningCodeService: CleaningCodeService,
+    private router:Router,
+    private title:Title,
   ) {
     this.subsQuery = this.stackExchangeService.apiSearchQuery$.subscribe((sentQuery: string) => {
       this.sentQuery = sentQuery;
+      this.title.setTitle(`Posts containing "${this.sentQuery}" - Stack Overflow`)
     });
     this.subsApiObject = this.stackExchangeService.apiUrlSearch$.subscribe((getApiUrlSearch: any) => {
       this.getApiUrlSearch = getApiUrlSearch
@@ -55,20 +65,26 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
         this.apiItems = apiObject;
         this.apiLoaded = true;
         console.log(this.apiItems)
+        console.log(this.apiItems.has_more)
+        this.apiItems.items.forEach((item:any) => {
+            item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
+        }
+        )
+
+        this.apiLength = this.apiItems.items.length
+        if(this.apiItems.has_more){
+          this.apiLength='30+'
+        }
         if (this.apiItems.items.length > 0) {
           this.isItems = true
           this.apiItems.items.forEach(function (value: any) {
-            value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;","\"")
+            value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;","\"").replaceAll("&gt;",">")
             value.link = value.title.replace(/[^a-zA-Z ]/g, "")
             value.link = value.link.replaceAll(" ","-").toLowerCase( )
-            //value.title = value.title.replaceAll("&amp;", "&")
-            //console.log(value.title);
           });
-
         } else {
           this.queryError = true;
         }
-        //console.log("222", this.apiLoaded)
       })
     });
     this.subsTag = this.stackExchangeService.apiTagSearch$.subscribe((getApiUrlTag: any) => {
@@ -90,28 +106,25 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
 
   }
 
-  passAuthorData(userData: string, userName: string): void {
-    this.authorClicked = true
+  sendAuthorData(userData: string, userName: string): void {
     this.authorId = userData
     this.authorName = userName
-    console.log("From Parent", this.authorId)
-    this.stackExchangeService.getAuthorQuestions(this.authorId).subscribe((apiAuthors)=>{
-      this.apiAuthors$.next(apiAuthors)
-    })
+    this.stackExchangeService.passAuthorData(this.authorId)
   }
-
-  passTagData(tagName: string): void {
+  sendTagData(tagName: string): void {
     this.tagName = tagName
-    console.log("Tag from Parent", this.tagName)
-    this.stackExchangeService.getTagQuestions(this.tagName).subscribe((apiTags) => {
-      this.apiTags$.next(apiTags)
+    this.stackExchangeService.passTagData(this.tagName)
+  }
+  onSortChange(obj: any) {
+    let optionSort = obj.value;
+    let selectedSort = this.sortQuestions.find(item => item.sortName === optionSort)
+    let currentUrl: string = document.location.pathname
+    this.router.navigate([currentUrl], {
+      queryParams: {sort: selectedSort?.sortName, type: selectedSort?.sortType},
+      queryParamsHandling: null
     })
+    this.ngOnInit();
   }
-  passQuestionId(questionId:string): void{
-    this.questionId = questionId
-    this.stackExchangeService.getAnswers(this.questionId)
-  }
-
   ngOnInit(): void {
 
   }

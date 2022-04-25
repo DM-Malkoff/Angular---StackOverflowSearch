@@ -6,23 +6,25 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table *ngIf="authorClicked" class="table table-reflow table-overflow" >
+        <div class="amount-question">{{amount}} questions</div>
+        <table *ngIf="haveAnswers;else noAnswerMess" class="table table-reflow table-overflow" >
           <tr>
             <th>Theme</th>
             <th>Answers</th>
-            <th>Tags</th>
           </tr>
           <tr *ngFor="let author of authorData.items">
-            <td class="theme"><a href="">{{author.title}}</a></td>
-            <td class="answers"><span class="answers_count"><a href="">{{author.answer_count}}</a></span></td>
-            <td class="tags">
-              <a href="" *ngFor="let tag of author.tags" data-bs-toggle="modal" data-bs-target="#tagModal">{{tag}}</a>
+            <td class="theme">
+              <a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.title}}</a>
             </td>
+            <td class="answers"><span class="answers_count"><a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.answer_count}}</a></span></td>
           </tr>
         </table>
+        <ng-template #noAnswerMess>
+          User hasn't asked questions yet
+        </ng-template>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="closeAuthorModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

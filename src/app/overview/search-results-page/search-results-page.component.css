@@ -23,11 +23,11 @@ th.mat-sort-header-sorted {
 .author-theme a:hover{
   border-bottom: 0
 }
-.table-overflwow a{color:navy; padding: 0}
-.table-overflwow a:hover{
+.table-overflow a{color:navy; padding: 0}
+.table-overflow a:hover{
   text-decoration: none;
 }
-.table-overflwow .tags a{
+.table-overflow .tags a{
   color: hsl(0deg 0% 100%);
   background-color: lightsteelblue;
   border-color: transparent;
@@ -43,10 +43,14 @@ th.mat-sort-header-sorted {
   border-style: solid;
   border-radius: 3px;
 }
-.table-overflwow .tags a:hover{
+.table-overflow .tags a:hover{
   color:hsl(205deg 46% 32%)
 }
-.table-overflwow .answers{text-align: center}
+.table-overflow .theme{
+  width: 60%;
+  overflow-wrap: anywhere;
+}
+.table-overflow .answers{text-align: center}
 .answers_count a{
   border-radius: 15px;
   /* padding: 5px 13px; */
@@ -61,4 +65,23 @@ th.mat-sort-header-sorted {
 }
 .answers_count a:hover{
   background-color: darkseagreen;
+}
+.results-amount{
+  color: darkgreen;
+  margin-top: 20px;
+}
+.top-line{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+mat-form-field::ng-deep .mat-form-field-flex{
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #efefef;
+}
+mat-form-field::ng-deep .mat-form-field-underline{
+  display: none;
 }

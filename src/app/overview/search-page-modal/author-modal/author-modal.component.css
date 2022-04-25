@@ -57,3 +57,10 @@
 .modal-title span{
   color: chocolate;
 }
+.amount-question{
+  margin-bottom: 15px;
+  color: darkgreen;
+}
+.table-overflow .theme{
+  overflow-wrap: anywhere;
+}

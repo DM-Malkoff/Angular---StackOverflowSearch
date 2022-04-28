@@ -14,6 +14,10 @@ export class CleaningCodeService{
       .replaceAll("&#225;", "á")
       .replaceAll("&#226;", "â")
       .replaceAll("&#242;", "ò")
+      .replaceAll("&#252;", "ü")
+      .replaceAll("&#232;", "è")
+      .replaceAll("&#234;", "ê")
+      .replaceAll("&#235;", "ë")
     return cleanString
   }
 

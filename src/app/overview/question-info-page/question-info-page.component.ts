@@ -39,10 +39,10 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
   tagName = ''
   authorName = ''
   authorId = ''
-  selectedItem = ''
+  selectedItem = 'votes'
   paramQuery = ''
   sortParam = 'votes'
-  sortType = 'Desc'
+  sortType = 'desc'
   sortAnswers = this.sortService.sortAnswers
 
   constructor(
@@ -68,7 +68,7 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
               this.questionTags = questionData.items[0].tags
               this.questionUserDate = questionData.items[0].creation_date * 1000
               this.questionAuthorImg = questionData.items[0].owner.profile_image
-              this.questionAuthorName = questionData.items[0].owner.display_name
+              this.questionAuthorName = cleaningCodeService.cleanCode(questionData.items[0].owner.display_name)
               this.questionUserId = questionData.items[0].owner.user_id
               this.questionAuthorReputation = questionData.items[0].owner.reputation
             }
@@ -78,12 +78,15 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
     )
     this.subsUrlAnswers = this.stackExchangeService.apiAnswersSearch$.subscribe(
       (getApiUrlAnswers: any) => {
-
         this.getApiUrlAnswers = getApiUrlAnswers;
         this.subsAnswers = this.getApiUrlAnswers.subscribe(
           (answersObject: any) => {
             console.log("answersObject: ", answersObject)
             this.answersData = answersObject;
+            this.answersData.items.forEach((item:any) => {
+              item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
+              }
+            )
             if (this.answersData.has_more === true) {
               this.answersDataLength = '30+'
             } else {
@@ -96,14 +99,12 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
         )
       }
     )
-
   }
 
   ngOnInit(): void {
     this.paramQuery = this.activatedRoute.snapshot.paramMap.get("questionId") ?? ''
     this.sortParam = (this.activatedRoute.snapshot.queryParamMap.get('sort') === null) ?
       'votes' : this.activatedRoute.snapshot.queryParamMap.get('sort') ?? ''
-    alert("On page " + this.sortParam)
     this.sortType = (this.activatedRoute.snapshot.queryParamMap.get('type') === null) ?
       'desc' : this.sortType = this.activatedRoute.snapshot.queryParamMap.get('type') ?? ''
     if (this.paramQuery) {
@@ -113,8 +114,8 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
   }
 
   returnToSearch() {
-    let searchQuery: string = localStorage.getItem('searchQuery') ?? '';
-    localStorage.removeItem('searchQuery')
+    let searchQuery: string = localStorage.getItem('searchQuery')??''
+    //localStorage.removeItem('searchQuery')
     this.router.navigateByUrl(`/search/q/${searchQuery}`)
   }
 
@@ -132,15 +133,14 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
 
   onSortChange(obj: any) {
     let optionSort = obj.value;
-    alert("In change time " + obj.value)
     let selectedSort = this.sortAnswers.find(item => item.sortName === optionSort)
     let url: string = document.location.pathname
+    this.stackExchangeService.getAnswers(this.paramQuery, this.sortParam, this.sortType)
+    this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; }; //запрет на повторное использование маршрута
     this.router.navigate([url], {
       queryParams: {sort: selectedSort?.sortName, type: selectedSort?.sortType},
-      queryParamsHandling: null
+      queryParamsHandling: null // очистка от параметров при переходе
     })
-    this.stackExchangeService.getAnswers(this.paramQuery, this.sortParam, this.sortType)
-    this.ngOnInit();
   }
 
   ngOnDestroy(): void {

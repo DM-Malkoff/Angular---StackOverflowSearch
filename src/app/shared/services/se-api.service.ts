@@ -16,12 +16,12 @@ export class StackExchangeService {
   isItems = false
   queryError = false
   searchQueryStore=''
-
+  clearQueryParams = false
   tagName = ''
   authorId=''
 
   site = 'stackoverflow'
-  apiUrl = 'https://api.stackexchange.com/2.3/search/advanced?q='
+  apiUrl = 'https://api.stackexchange.com/2.3/search/advanced'
   apiAuthorUrl = 'https://api.stackexchange.com/2.3/users/'
   apiTagUrl = 'https://api.stackexchange.com/2.3/tags/'
   apiAnswersUrl='https://api.stackexchange.com/2.3/questions/'
@@ -35,9 +35,10 @@ export class StackExchangeService {
   public apiTags$ = new Subject()
   public apiAuthor$ = new Subject()
 
-  getSearchResult(searchQuery: string) {
+  getSearchResult(searchQuery: string,sort:string,sortType:string) {
     this.searchQueryStore = searchQuery
-    this.apiUrlSearch = this.httpClient.get(`${this.apiUrl}${searchQuery}&site=${this.site}`)
+    this.apiUrlSearch = this.httpClient.get(`${this.apiUrl}?order=${sortType}&sort=${sort}&q=${searchQuery}&site=${this.site}`)
+    console.log("URL:  ",`${this.apiUrl}?order=${sortType}&sort=${sort}&q=${searchQuery}&site=${this.site}`)
     this.apiSearchQuery$.next(searchQuery);
     this.apiUrlSearch$.next(this.apiUrlSearch);
     localStorage.setItem('searchQuery', this.searchQueryStore)
@@ -53,7 +54,6 @@ export class StackExchangeService {
     this.apiQuestionSearch$.next(this.apiQuestionSearch)
   }
   getAnswers(questionId:string,sort:string,sortType:string){
-    alert('Service '+sort)
     this.apiAnswersSearch = this.httpClient.get(`${this.apiAnswersUrl}${questionId}/answers?order=${sortType}&sort=${sort}&site=${this.site}&filter=withbody`)
     this.apiAnswersSearch$.next(this.apiAnswersSearch)
     console.log("urlApi: ",`${this.apiAnswersUrl}${questionId}/answers?order=${sortType}&sort=${sort}&site=${this.site}&filter=withbody`)

@@ -7,7 +7,7 @@
           type="text"
           class="form-control"
           formControlName="searchQuery"
-          placeholder="{{(form.get('searchQuery')?.invalid && form.get('searchQuery')?.touched) ? 'Enter a question':sentQuery}}"
+          placeholder="{{(form.get('searchQuery')?.invalid && form.get('searchQuery')?.touched) ? 'Enter a question':searchQuery}}"
           id="searchQuery"
           [ngClass]="{'invalid': form.get('searchQuery')?.invalid && form.get('searchQuery')?.touched}"
         >

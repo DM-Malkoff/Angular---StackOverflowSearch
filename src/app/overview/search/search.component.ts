@@ -13,7 +13,8 @@ import {Title} from "@angular/platform-browser";
 })
 export class SearchComponent implements OnInit{
   @Input() sentQuery = '';
-  @Output() onClickSearch = new EventEmitter()
+  sortParam = 'activity'
+  sortType = 'desc'
   searchQuery = '';
   paramQuery='';
   isItems = false;
@@ -21,6 +22,7 @@ export class SearchComponent implements OnInit{
   // @ts-ignore
   form: FormGroup;
   query = ''
+
   clickState='end'
 
   constructor(
@@ -28,7 +30,6 @@ export class SearchComponent implements OnInit{
     private router: Router,
     private activatedRoute:ActivatedRoute,
     private title:Title
-
   ) {
     this.title.setTitle('Search from StackOverflow')
   }
@@ -39,7 +40,6 @@ export class SearchComponent implements OnInit{
           searchQuery: new FormControl( paramQuery, [Validators.required])
         }
       )
-      this.autoLoad(paramQuery)//выводим результат если введен напрямую в адреснной строке или вернулись на пред.страницы
     }
     else{
       this.form = new FormGroup({
@@ -49,25 +49,24 @@ export class SearchComponent implements OnInit{
       this.clickState='start'
     }
   }
+  // String.prototype.escapeURI = function () {
+  //   return encodeURIComponent(this).replace(/%20/g, '+');
+  // }
   getQuestionsList() {
+    this.stackExchangeService.clearQueryParams = true
+    alert(this.sortParam + this.sortType)
     this.searchQuery = this.form.get("searchQuery")?.value
     this.router.navigateByUrl(`/search/q/${this.searchQuery}`).then(() => {
-      this.stackExchangeService.getSearchResult(this.searchQuery)
-    })
+          this.stackExchangeService.getSearchResult(this.searchQuery, this.sortParam, this.sortType)
+        }
+    )
   }
-  autoLoad(paramQuery:string) {
-    this.searchQuery = paramQuery
-    this.router.navigateByUrl(`/search/q/${this.searchQuery}`).then(() => {
-      this.stackExchangeService.getSearchResult(this.searchQuery)
-    })
-  }
+
   buttonPress(){
     this.clickState='end';
-    this.onClickSearch.emit();
     setTimeout(() => {
         this.getQuestionsList()
       },
       500)
   }
-
 }

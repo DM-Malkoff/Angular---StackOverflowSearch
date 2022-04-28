@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StackExchangeService} from "../../shared/services/se-api.service";
 import {Subject, Subscription} from "rxjs";
 import {SortService} from "../../shared/services/sort.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {CleaningCodeService} from "../../shared/services/cleaning-code.service";
 
@@ -23,7 +23,7 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   sentQuery = '';
   searchQuery = '';
   paramQuery = '';
-  apiTags:any;
+  apiTags: any;
 
   getApiTagObject: any;
   apiLoaded = false;
@@ -41,21 +41,30 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   isTagItems = false
   isAuthorItems = false
   tagClicked = false
-  questionId=''
-  apiLength=''
-  selectedItem = ''
+  questionId = ''
+  apiLength = ''
+  selectedItem = 'activity'
+  sortParam = 'activity'
+  sortType = 'desc'
+  searchUrl=''
+  isSorted = false
   sortQuestions = this.sortService.sortQuestions
 
   constructor(
     private stackExchangeService: StackExchangeService,
     private sortService: SortService,
     private cleaningCodeService: CleaningCodeService,
-    private router:Router,
-    private title:Title,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private title: Title,
   ) {
-    this.subsQuery = this.stackExchangeService.apiSearchQuery$.subscribe((sentQuery: string) => {
-      this.sentQuery = sentQuery;
+    this.subsQuery = this.stackExchangeService.apiSearchQuery$.subscribe((response: string) => {
+      this.sentQuery = response;
       this.title.setTitle(`Posts containing "${this.sentQuery}" - Stack Overflow`)
+      if (stackExchangeService.clearQueryParams){
+        this.selectedItem = 'activity'
+        stackExchangeService.clearQueryParams = false
+      }
     });
     this.subsApiObject = this.stackExchangeService.apiUrlSearch$.subscribe((getApiUrlSearch: any) => {
       this.getApiUrlSearch = getApiUrlSearch
@@ -64,23 +73,21 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
       this.getApiUrlSearch.subscribe((apiObject: object) => {
         this.apiItems = apiObject;
         this.apiLoaded = true;
-        console.log(this.apiItems)
-        console.log(this.apiItems.has_more)
-        this.apiItems.items.forEach((item:any) => {
+        this.apiItems.items.forEach((item: any) => {
             item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
-        }
+          }
         )
 
         this.apiLength = this.apiItems.items.length
-        if(this.apiItems.has_more){
-          this.apiLength='30+'
+        if (this.apiItems.has_more) {
+          this.apiLength = '30+'
         }
         if (this.apiItems.items.length > 0) {
           this.isItems = true
           this.apiItems.items.forEach(function (value: any) {
-            value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;","\"").replaceAll("&gt;",">")
+            value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;", "\"").replaceAll("&gt;", ">")
             value.link = value.title.replace(/[^a-zA-Z ]/g, "")
-            value.link = value.link.replaceAll(" ","-").toLowerCase( )
+            value.link = value.link.replaceAll(" ", "-").toLowerCase()
           });
         } else {
           this.queryError = true;
@@ -103,7 +110,7 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
         this.isAuthorItems = true
       })
     });
-
+    this.paramQuery = this.activatedRoute.snapshot.paramMap.get("searchQuery")??''
   }
 
   sendAuthorData(userData: string, userName: string): void {
@@ -111,22 +118,44 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
     this.authorName = userName
     this.stackExchangeService.passAuthorData(this.authorId)
   }
+
   sendTagData(tagName: string): void {
     this.tagName = tagName
     this.stackExchangeService.passTagData(this.tagName)
   }
-  onSortChange(obj: any) {
-    let optionSort = obj.value;
-    let selectedSort = this.sortQuestions.find(item => item.sortName === optionSort)
-    let currentUrl: string = document.location.pathname
-    this.router.navigate([currentUrl], {
-      queryParams: {sort: selectedSort?.sortName, type: selectedSort?.sortType},
-      queryParamsHandling: null
-    })
-    this.ngOnInit();
-  }
+
+
   ngOnInit(): void {
 
+    this.searchUrl =`/search/q/${this.paramQuery}`
+    //this.searchUrl = this.searchUrl.replace(/%20/ig, '+')
+    this.sortParam = (this.activatedRoute.snapshot.queryParamMap.get('sort') === null) ?
+      'activity' : this.activatedRoute.snapshot.queryParamMap.get('sort') ?? ''
+    this.sortType = (this.activatedRoute.snapshot.queryParamMap.get('type') === null) ?
+      'desc' : this.sortType = this.activatedRoute.snapshot.queryParamMap.get('type') ?? ''
+    this.autoLoad()//выводим результат если введен напрямую в адреснной строке или вернулись на пред.страницы
+  }
+  autoLoad() {
+    if (this.isSorted){
+      this.stackExchangeService.getSearchResult(this.paramQuery, this.sortParam, this.sortType)
+    }
+    else{
+      this.router.navigate([this.searchUrl], {
+        queryParams: {sort: this.sortParam, type: this.sortType}
+      }).then(() => {
+        this.stackExchangeService.getSearchResult(this.paramQuery, this.sortParam, this.sortType)
+      })
+    }
+  }
+  onSortChange(obj: any) {
+    this.isSorted = true
+    let optionSort = obj.value;
+    let selectedSort = this.sortQuestions.find(item => item.sortName === optionSort)
+    this.router.navigate([this.searchUrl], {
+      queryParams: {sort: selectedSort?.sortName, type: selectedSort?.sortType},
+    }).then(() => {
+      this.ngOnInit()
+    })
   }
 
   ngOnDestroy(): void {

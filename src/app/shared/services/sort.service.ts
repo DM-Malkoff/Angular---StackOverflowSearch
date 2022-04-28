@@ -27,14 +27,14 @@ export class SortService{
   ]
   sortQuestions = [
     {
+      sortName: 'activity',
+      sortType: 'desc',
+      sortText: 'Active (default)'
+    },
+    {
       sortName: 'votes',
       sortType: 'desc',
       sortText: 'Score'
-    },
-    {
-      sortName: 'activity',
-      sortType: 'desc',
-      sortText: 'Active'
     },
     {
       sortName: 'creation',

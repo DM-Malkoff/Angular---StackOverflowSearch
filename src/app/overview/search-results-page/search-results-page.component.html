@@ -1,6 +1,11 @@
 <app-search [sentQuery]="sentQuery"></app-search>
 <div *ngIf="queryError" class="searchError">Your search <strong>{{sentQuery}}</strong> did not match any
   documents.<br><br></div>
+<div *ngIf="getApiError" class="searchError">
+  <div class="alert alert-danger" role="alert">
+    <strong>Warning!</strong> {{apiErrorMessage}}
+  </div>
+</div>
 <div *ngIf="isItems" class="container">
   <div class="top-line" *ngIf="apiLength">
     <div class="results-amount">About {{apiLength}} results</div>
@@ -47,3 +52,7 @@
   <app-tag-modal [tagClicked]="tagClicked" [tagName]="tagName"></app-tag-modal>
   <app-search-page-modal [authorName]="authorName"></app-search-page-modal>
 </div>
+<div class="container-loader" *ngIf="loaderService.isLoading | async">
+  <mat-spinner [diameter]="70" style="top:50%;left: 50%" ></mat-spinner>
+</div>
+

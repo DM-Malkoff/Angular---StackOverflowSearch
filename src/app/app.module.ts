@@ -3,11 +3,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar'
 
 import {AppComponent} from './app.component';
 import {LoginPageComponent} from './authorize/login-page/login-page.component';
@@ -19,8 +20,11 @@ import {SearchResultsPageComponent} from './overview/search-results-page/search-
 import {QuestionInfoPageComponent} from './overview/question-info-page/question-info-page.component';
 import {PageNotFoundComponentComponent} from './page-not-found-component/page-not-found-component.component';
 import {AuthorModalComponent} from './overview/search-page-modal/author-modal/author-modal.component';
-import { TagModalComponent } from './overview/search-page-modal/tag-modal/tag-modal.component';
-import { PasswordRecoveryComponent } from './authorize/password-recovery/password-recovery.component';
+import {TagModalComponent} from './overview/search-page-modal/tag-modal/tag-modal.component';
+import {PasswordRecoveryComponent} from './authorize/password-recovery/password-recovery.component';
+import {InterceptorService} from "./shared/services/loader/interceptor.service";
+
+
 
 @NgModule({
   declarations: [
@@ -37,6 +41,7 @@ import { PasswordRecoveryComponent } from './authorize/password-recovery/passwor
     TagModalComponent,
     PasswordRecoveryComponent,
 
+
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,12 @@ import { PasswordRecoveryComponent } from './authorize/password-recovery/passwor
     MatInputModule,
     MatSelectModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
 
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
   bootstrap: [AppComponent],
 

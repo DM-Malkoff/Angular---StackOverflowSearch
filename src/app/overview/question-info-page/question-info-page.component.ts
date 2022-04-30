@@ -22,6 +22,8 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
 
   isAnswerItems = false
   getApiUrlAnswers: any
+  getApiError = false
+  apiErrorMessage=''
   answersData: any
   answersDataLength = ''
   QuestionInfo: any
@@ -72,6 +74,10 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
               this.questionUserId = questionData.items[0].owner.user_id
               this.questionAuthorReputation = questionData.items[0].owner.reputation
             }
+          },
+          (error: any) => {
+            this.getApiError = true;
+            this.apiErrorMessage = stackExchangeService.getApiErrorMessage
           }
         )
       }
@@ -83,8 +89,8 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
           (answersObject: any) => {
             console.log("answersObject: ", answersObject)
             this.answersData = answersObject;
-            this.answersData.items.forEach((item:any) => {
-              item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
+            this.answersData.items.forEach((item: any) => {
+                item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
               }
             )
             if (this.answersData.has_more === true) {
@@ -95,6 +101,10 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
             if (this.answersData.items.length > 0) {
               this.isAnswerItems = true
             }
+          },
+          (error: any) => {
+            this.getApiError = true;
+            this.apiErrorMessage = stackExchangeService.getApiErrorMessage
           }
         )
       }
@@ -114,7 +124,7 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
   }
 
   returnToSearch() {
-    let searchQuery: string = localStorage.getItem('searchQuery')??''
+    let searchQuery: string = localStorage.getItem('searchQuery') ?? ''
     //localStorage.removeItem('searchQuery')
     this.router.navigateByUrl(`/search/q/${searchQuery}`)
   }
@@ -136,7 +146,9 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
     let selectedSort = this.sortAnswers.find(item => item.sortName === optionSort)
     let url: string = document.location.pathname
     this.stackExchangeService.getAnswers(this.paramQuery, this.sortParam, this.sortType)
-    this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; }; //запрет на повторное использование маршрута
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }; //запрет на повторное использование маршрута
     this.router.navigate([url], {
       queryParams: {sort: selectedSort?.sortName, type: selectedSort?.sortType},
       queryParamsHandling: null // очистка от параметров при переходе

@@ -13,6 +13,7 @@ export class StackExchangeService {
   apiUrlSearch:any
   apiAnswersSearch:any
   apiQuestionSearch:any
+  getApiError = false
   isItems = false
   queryError = false
   searchQueryStore=''
@@ -25,15 +26,17 @@ export class StackExchangeService {
   apiAuthorUrl = 'https://api.stackexchange.com/2.3/users/'
   apiTagUrl = 'https://api.stackexchange.com/2.3/tags/'
   apiAnswersUrl='https://api.stackexchange.com/2.3/questions/'
+  getApiErrorMessage='Oooops, server not response, please try later';
 
-  public apiSearchQuery$ = new Subject<string>();
-  public apiUrlSearch$ = new Subject();
-  public apiAuthorSearch$ = new Subject();
-  public apiTagSearch$ = new Subject();
-  public apiAnswersSearch$ = new Subject();
-  public apiQuestionSearch$ = new Subject();
+  public apiSearchQuery$ = new Subject<string>()
+  public apiUrlSearch$ = new Subject()
+  public apiAuthorSearch$ = new Subject()
+  public apiTagSearch$ = new Subject()
+  public apiAnswersSearch$ = new Subject()
+  public apiQuestionSearch$ = new Subject()
   public apiTags$ = new Subject()
   public apiAuthor$ = new Subject()
+  public getApiError$ = new Subject()
 
   getSearchResult(searchQuery: string,sort:string,sortType:string) {
     this.searchQueryStore = searchQuery
@@ -62,12 +65,20 @@ export class StackExchangeService {
     this.tagName = tagName
     this.getTagQuestions(this.tagName).subscribe((apiTags) => {
       this.apiTags$.next(apiTags)
-    })
+    },
+      (error: any) => {
+        this.getApiError$.next(true);
+      }
+    )
   }
   passAuthorData(authorId: string): void {
     this.authorId = authorId
     this.getAuthorQuestions(this.authorId).subscribe((apiAuthor) => {
       this.apiAuthor$.next(apiAuthor)
-    })
+    },
+      (error: any) => {
+        this.getApiError$.next(true);
+      }
+    )
   }
 }

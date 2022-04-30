@@ -1,4 +1,11 @@
 <div class="container">
+  <div *ngIf="getApiError;else contentBlock" class="searchError">
+    <div class="alert alert-danger" role="alert">
+      <strong>Warning!</strong> {{apiErrorMessage}}
+    </div>
+    .<br><br>
+  </div>
+  <ng-template #contentBlock>
   <div class="question-clock">
     <div class="top-line">
       <h1>{{questionTitle}}</h1>
@@ -84,6 +91,7 @@
       </div>
     </div>
   </div>
+  </ng-template>
 </div>
 <app-tag-modal [tagName]="tagName"></app-tag-modal>
 <app-search-page-modal [authorName]="authorName"></app-search-page-modal>

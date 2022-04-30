@@ -158,3 +158,9 @@ mat-form-field::ng-deep .mat-form-field-underline{
 .top-line a:before{
 
 }
+.searchError{text-align: center}
+.searchError .alert{
+  width: fit-content;
+  display: inline-block;
+  margin: 50px;
+}

@@ -6,21 +6,33 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="amount-question">{{amount}} questions</div>
-        <table *ngIf="haveAnswers;else noAnswerMess" class="table table-reflow table-overflow" >
-          <tr>
-            <th>Theme</th>
-            <th>Answers</th>
-          </tr>
-          <tr *ngFor="let author of authorData.items">
-            <td class="theme">
-              <a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.title}}</a>
-            </td>
-            <td class="answers"><span class="answers_count"><a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.answer_count}}</a></span></td>
-          </tr>
-        </table>
-        <ng-template #noAnswerMess>
-          User hasn't asked questions yet
+        <div class="container-loader" *ngIf="loaderService.isLoading | async; else contentBlock">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <ng-template #contentBlock >
+          <div *ngIf="getApiError;else showTable" class="searchError">
+            <div class="alert alert-danger" role="alert">
+              <strong>Warning!</strong> {{apiErrorMessage}}
+            </div>
+          </div>
+          <ng-template #showTable>
+            <div class="amount-question">{{amount}} questions</div>
+            <table *ngIf="haveAnswers;else noAnswerMess" class="table table-reflow table-overflow" >
+              <tr>
+                <th>Theme</th>
+                <th>Answers</th>
+              </tr>
+              <tr *ngFor="let author of authorData.items">
+                <td class="theme">
+                  <a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.title}}</a>
+                </td>
+                <td class="answers"><span class="answers_count"><a (click)="closeModal()" routerLink="/questions/{{author.question_id}}/{{author.link}}">{{author.answer_count}}</a></span></td>
+              </tr>
+            </table>
+            <ng-template #noAnswerMess>
+              User hasn't asked questions yet
+            </ng-template>
+        </ng-template>
         </ng-template>
       </div>
       <div class="modal-footer">
@@ -29,3 +41,4 @@
     </div>
   </div>
 </div>
+

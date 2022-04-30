@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {StackExchangeService} from "../../../shared/services/se-api.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CleaningCodeService} from "../../../shared/services/cleaning-code.service";
+import {LoaderService} from "../../../shared/services/loader/loader.service";
 
 @Component({
   selector: 'app-tag-modal',
@@ -16,15 +17,23 @@ export class TagModalComponent implements OnInit, OnDestroy {
   @Input() tagClicked:any;
   @Input() fromTagClicked:any;
 
-
+  getApiError = false
+  apiErrorMessage = ''
   tagData:any;
 
   constructor(
-    public seService:StackExchangeService,
+    public stackExchangeService:StackExchangeService,
     public cleaningCodeService:CleaningCodeService,
-    public router:Router
+    public router:Router,
+    public loaderService:LoaderService,
 ) {
-    this.subsTags = this.seService.apiTags$.subscribe((apiUrlTag: any) => {
+    this.stackExchangeService.getApiError$.subscribe((response) => {
+      if (response === true){
+        this.getApiError = true
+        this.apiErrorMessage = stackExchangeService.getApiErrorMessage
+      }
+    })
+    this.subsTags = this.stackExchangeService.apiTags$.subscribe((apiUrlTag: any) => {
       this.tagData = apiUrlTag
       if (this.tagData.items){
         this.tagClicked = true

@@ -6,20 +6,32 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table *ngIf="tagClicked" class="table table-reflow table-overflow" >
-          <tr>
-            <th>Theme</th>
-            <th>Answers</th>
-          </tr>
-          <tr *ngFor="let tag of tagData.items">
-            <td class="theme">
-              <a (click)="closeModal()" routerLink="/questions/{{tag.question_id}}/{{tag.link}}">
-                {{tag.title}}
-              </a>
-            </td>
-            <td class="answers"><span class="answers_count"><a (click)="closeModal()" routerLink="/questions/{{tag.question_id}}/{{tag.link}}">{{tag.answer_count}}</a></span></td>
-          </tr>
-        </table>
+        <div class="container-loader" *ngIf="loaderService.isLoading | async; else contentBlock">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <ng-template #contentBlock >
+          <div *ngIf="getApiError;else showTable" class="searchError">
+            <div class="alert alert-danger" role="alert">
+              <strong>Warning!</strong> {{apiErrorMessage}}
+            </div>
+          </div>
+          <ng-template #showTable>
+            <table *ngIf="tagClicked" class="table table-reflow table-overflow" >
+              <tr>
+                <th>Theme</th>
+                <th>Answers</th>
+              </tr>
+              <tr *ngFor="let tag of tagData.items">
+                <td class="theme">
+                  <a (click)="closeModal()" routerLink="/questions/{{tag.question_id}}/{{tag.link}}">
+                    {{tag.title}}
+                  </a>
+                </td>
+                <td class="answers"><span class="answers_count"><a (click)="closeModal()" routerLink="/questions/{{tag.question_id}}/{{tag.link}}">{{tag.answer_count}}</a></span></td>
+              </tr>
+            </table>
+          </ng-template>
+        </ng-template>
       </div>
       <div class="modal-footer">
         <button id="closeTagModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

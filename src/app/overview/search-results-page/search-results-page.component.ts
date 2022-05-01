@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StackExchangeService} from "../../shared/services/se-api.service";
-import {Subject, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {SortService} from "../../shared/services/sort.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
@@ -11,7 +11,6 @@ import {LoaderService} from "../../shared/services/loader/loader.service";
   selector: 'app-search-results-page',
   templateUrl: './search-results-page.component.html',
   styleUrls: ['./search-results-page.component.css'],
-  //animations: [showTable]
 })
 
 export class SearchResultsPageComponent implements OnInit, OnDestroy {
@@ -84,7 +83,6 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
                 item.owner.display_name = cleaningCodeService.cleanCode(item.owner.display_name)
               }
             )
-
             this.apiLength = this.apiItems.items.length
             if (this.apiItems.has_more) {
               this.apiLength = '30+'
@@ -92,7 +90,7 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
             if (this.apiItems.items.length > 0) {
               this.isItems = true
               this.apiItems.items.forEach(function (value: any) {
-                value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;", "\"").replaceAll("&gt;", ">")
+                value.title = cleaningCodeService.cleanCode(value.title)
                 value.link = value.title.replace(/[^a-zA-Z ]/g, "")
                 value.link = value.link.replaceAll(" ", "-").toLowerCase()
               });
@@ -135,7 +133,6 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
     this.stackExchangeService.passTagData(this.tagName)
   }
 
-
   ngOnInit(): void {
 
     this.searchUrl = `/search/q/${this.paramQuery}`
@@ -170,10 +167,18 @@ export class SearchResultsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subsQuery.unsubscribe()
-    this.subsApiObject.unsubscribe()
-    this.subsAuthor.unsubscribe()
-    this.subsTag.unsubscribe()
+    if (this.subsQuery) {
+      this.subsQuery.unsubscribe()
+    }
+    if (this.subsApiObject) {
+      this.subsApiObject.unsubscribe()
+    }
+    if (this.subsAuthor) {
+      this.subsAuthor.unsubscribe()
+    }
+    if (this.subsTag) {
+      this.subsTag.unsubscribe()
+    }
   }
 }
 

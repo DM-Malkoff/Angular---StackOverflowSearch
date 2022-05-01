@@ -1,15 +1,20 @@
-.top-panel .container{
+.top-panel .container {
   background: none;
   padding: 0;
   box-shadow: none;
   display: flex;
   justify-content: space-between;
 }
-.top-panel .logo{
+
+.top-panel .logo {
   padding-left: 20px;
 }
-.top-panel ul{margin-top: 5px}
-.top-panel-authorized a:hover{
+
+.top-panel ul {
+  margin-top: 5px
+}
+
+.top-panel-authorized a:hover {
   text-decoration: none;
 }
 

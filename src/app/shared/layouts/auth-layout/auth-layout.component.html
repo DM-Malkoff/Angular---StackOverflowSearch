@@ -12,5 +12,7 @@
       </div>
     </div>
   </nav>
-  <router-outlet></router-outlet>
+  <main [@authForm]="getRouterOutletState(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </main>
 </div>

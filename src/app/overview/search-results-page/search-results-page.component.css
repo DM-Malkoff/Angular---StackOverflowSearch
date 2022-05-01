@@ -5,33 +5,47 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
-.searchError{text-align: center}
-.searchError .alert{
+
+.searchError {
+  text-align: center
+}
+
+.searchError .alert {
   width: fit-content;
   display: inline;
 }
-.author-theme{
+
+.author-theme {
   white-space: nowrap;
   padding-right: 20px;
 }
-.author-theme img{
-  width:15px;
+
+.author-theme img {
+  width: 15px;
   padding: 0;
   margin: 5px 15px;
 }
-.author-theme a{
+
+.author-theme a {
   padding: 0;
   text-decoration: none;
   border-bottom: 1px dotted;
 }
-.author-theme a:hover{
+
+.author-theme a:hover {
   border-bottom: 0
 }
-.table-overflow a{color:navy; padding: 0}
-.table-overflow a:hover{
+
+.table-overflow a {
+  color: navy;
+  padding: 0
+}
+
+.table-overflow a:hover {
   text-decoration: none;
 }
-.table-overflow .tags a{
+
+.table-overflow .tags a {
   color: hsl(0deg 0% 100%);
   background-color: lightsteelblue;
   border-color: transparent;
@@ -47,15 +61,21 @@ th.mat-sort-header-sorted {
   border-style: solid;
   border-radius: 3px;
 }
-.table-overflow .tags a:hover{
-  color:hsl(205deg 46% 32%)
+
+.table-overflow .tags a:hover {
+  color: hsl(205deg 46% 32%)
 }
-.table-overflow .theme{
+
+.table-overflow .theme {
   width: 60%;
   overflow-wrap: anywhere;
 }
-.table-overflow .answers{text-align: center}
-.answers_count a{
+
+.table-overflow .answers {
+  text-align: center
+}
+
+.answers_count a {
   border-radius: 15px;
   /* padding: 5px 13px; */
   width: 25px;
@@ -65,31 +85,37 @@ th.mat-sort-header-sorted {
   margin: 5px 0;
   display: inline-block;
   line-height: 25px;
-  text-decoration:none;
+  text-decoration: none;
 }
-.answers_count a:hover{
+
+.answers_count a:hover {
   background-color: darkseagreen;
 }
-.results-amount{
+
+.results-amount {
   color: darkgreen;
   margin-top: 20px;
 }
-.top-line{
+
+.top-line {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
-mat-form-field::ng-deep .mat-form-field-flex{
+
+mat-form-field::ng-deep .mat-form-field-flex {
   border-radius: 4px;
   background-color: #fff;
   border: 1px solid #efefef;
 }
-mat-form-field::ng-deep .mat-form-field-underline{
+
+mat-form-field::ng-deep .mat-form-field-underline {
   display: none;
 }
-.container-loader{
+
+.container-loader {
   position: fixed;
   background-color: black;
   opacity: 0.8;
@@ -99,3 +125,24 @@ mat-form-field::ng-deep .mat-form-field-underline{
   top: 0
 }
 
+/* Используем 800px для мобильного экрана */
+@media(max-width: 800px) {
+  /* Скрываем заголовки таблицы */
+  table thead {
+    left: -9999px;
+    position: absolute;
+    visibility: hidden;
+  }
+  table tr {
+    border-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  table td {
+    border: 1px solid;
+    margin: 0 -1px -1px 0; /* Удаляем двойную границу */
+    width: 50%;
+  }
+}

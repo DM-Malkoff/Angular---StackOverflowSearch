@@ -25,7 +25,6 @@ import {PasswordRecoveryComponent} from './authorize/password-recovery/password-
 import {InterceptorService} from "./shared/services/loader/interceptor.service";
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthLayoutComponent} from './shared/layouts/auth-layout/auth-layout.component';
 import {LoginPageComponent} from "./authorize/login-page/login-page.component";
 import {RegisterPageComponent} from "./authorize/register-page/register-page.component";
-import {AuthService} from "./shared/services/auth.service";
 import {SiteLayoutComponent} from './shared/layouts/site-layout/site-layout.component';
 import {SearchComponent} from "./overview/search/search.component";
 import {SearchResultsPageComponent} from "./overview/search-results-page/search-results-page.component";
@@ -23,7 +22,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: '', component: SiteLayoutComponent, canActivate:[AuthGuard], children: [
+    path: '', component: SiteLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'search', component: SearchComponent, pathMatch: 'full'},
       {path: 'search-results-page', component: SearchResultsPageComponent},
       {path: 'search/q/:searchQuery', component: SearchResultsPageComponent},

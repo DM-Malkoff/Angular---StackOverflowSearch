@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -9,7 +9,7 @@ import {Title} from "@angular/platform-browser";
 export class PageNotFoundComponentComponent implements OnInit {
 
   constructor(
-    private title:Title
+    private title: Title
   ) {
     this.title.setTitle('404 Error - StackOverflowSearch')
   }

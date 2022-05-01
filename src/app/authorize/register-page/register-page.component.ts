@@ -8,20 +8,18 @@ import {Title} from "@angular/platform-browser";
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.css']
+  styleUrls: ['./register-page.component.css'],
 })
 export class RegisterPageComponent implements OnInit, OnDestroy {
-
-  form = new FormGroup({})
+  form!: FormGroup
   isRegistered = false
-  errorMessage=''
-  // @ts-ignore
-  aSub: Subscription
+  errorMessage = ''
+  aSub?: Subscription
 
   constructor(
     private auth: AuthService,
     private router: Router,
-    private title:Title
+    private title: Title
   ) {
     this.title.setTitle('Sign Up - StackOverflowSearch')
   }
@@ -36,11 +34,6 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
     )
   }
 
-  ngOnDestroy() {
-    if (this.aSub){
-      this.aSub.unsubscribe()
-    }
-  }
   passSymbols() {
     // @ts-ignore
     return this.form.get('password')?.errors['minlength'].requiredLength
@@ -66,18 +59,23 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.aSub = this.auth.register(this.form.value).subscribe((response) =>{
+    this.aSub = this.auth.register(this.form.value).subscribe((response) => {
       this.isRegistered = response;
-      if (this.isRegistered){
+      if (this.isRegistered) {
         this.router.navigate(['/login'], {
           queryParams: {
             registered: true
           }
         })
-      }
-      else{
-        this.errorMessage='User with this Email is already exist'
+      } else {
+        this.errorMessage = 'User with this Email is already exist'
       }
     })
+  }
+
+  ngOnDestroy() {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
   }
 }

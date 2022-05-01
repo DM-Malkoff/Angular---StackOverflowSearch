@@ -15,7 +15,7 @@ import {CleaningCodeService} from "../../shared/services/cleaning-code.service";
 })
 
 export class QuestionInfoPageComponent implements OnInit, OnDestroy {
-  private subsAnswers!: Subscription
+  private subsAnswers?: Subscription
   private subQuestion: Subscription
   private subsUrlAnswers: Subscription
   private subQuestionInfo!: Subscription
@@ -23,7 +23,7 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
   isAnswerItems = false
   getApiUrlAnswers: any
   getApiError = false
-  apiErrorMessage=''
+  apiErrorMessage = ''
   answersData: any
   answersDataLength = ''
   QuestionInfo: any
@@ -130,7 +130,6 @@ export class QuestionInfoPageComponent implements OnInit, OnDestroy {
   }
 
   sendTagData(tagName: string): void {
-    this.subsUrlAnswers.unsubscribe()
     this.tagName = tagName
     this.stackExchangeService.passTagData(this.tagName)
   }

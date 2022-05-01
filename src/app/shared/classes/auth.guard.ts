@@ -12,27 +12,27 @@ import {AuthService} from "../services/auth.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild{
+export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(
-    private auth:AuthService,
+    private auth: AuthService,
     private router: Router
   ) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if(this.auth.isAuthenticated()){
+    if (this.auth.isAuthenticated()) {
       return of(true)
-    }else{
+    } else {
       this.router.navigate(['/login'], {
         queryParams: {
-          accessDenied:true
+          accessDenied: true
         }
       })
       return of(false)
     }
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>{
-    return this.canActivate(route,state)
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.canActivate(route, state)
   }
 }

@@ -13,13 +13,11 @@ import {Title} from "@angular/platform-browser";
 
 export class LoginPageComponent implements OnInit, OnDestroy {
 
-  // @ts-ignore
-  form: FormGroup
-  // @ts-ignore
-  aSub: Subscription
-  isLogined=false
+  form!: FormGroup
+  aSub?: Subscription
+  isLogined = false
   error = ''
-  loginError=''
+  loginError = ''
   regMessage = ''
 
   constructor(
@@ -38,16 +36,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     )
     this.route.queryParams.subscribe(
-      (params)=>{
-        if (params['registered']){
-          this.regMessage ='Enter you verification data'
-        }else if(params['accessDenied']){
+      (params) => {
+        if (params['registered']) {
+          this.regMessage = 'Enter you verification data'
+        } else if (params['accessDenied']) {
           this.loginError = 'Before using this service you must Login'
         }
       }
     )
   }
-
 
   passSymbols() {
     // @ts-ignore
@@ -62,12 +59,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.form.disable()
     this.aSub = this.auth.login(this.form.value).subscribe(
-      (response)=> {
+      (response) => {
         this.isLogined = response
         if (this.isLogined == true) {
           console.log("Login success")
           this.router.navigate(['/search'])
-        }else {
+        } else {
           this.form.enable()
           this.error = this.auth.errMessage
           console.log("access denied")
@@ -75,6 +72,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     )
   }
+
   ngOnDestroy() {
     if (this.aSub) {
       this.aSub.unsubscribe()

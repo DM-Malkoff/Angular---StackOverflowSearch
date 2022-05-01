@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SearchResultsPageComponent} from "../../search-results-page/search-results-page.component";
 import {Subscription} from "rxjs";
 import {StackExchangeService} from "../../../shared/services/se-api.service";
-import {Router} from "@angular/router";
 import {LoaderService} from "../../../shared/services/loader/loader.service";
+import {CleaningCodeService} from "../../../shared/services/cleaning-code.service";
 
 @Component({
   selector: 'app-search-page-modal',
@@ -21,10 +20,10 @@ export class AuthorModalComponent implements OnInit {
   apiErrorMessage = ''
   amount = ''
 
-
   constructor(
     public loaderService: LoaderService,
-    private stackExchangeService: StackExchangeService
+    private stackExchangeService: StackExchangeService,
+    public cleaningCodeService:CleaningCodeService
   ) {
     this.stackExchangeService.getApiError$.subscribe((response) => {
       if (response === true){
@@ -41,7 +40,7 @@ export class AuthorModalComponent implements OnInit {
         }
         this.haveAnswers = !!this.authorData.items.length
         this.authorData.items.forEach(function (value: any) {
-          value.title = value.title.replaceAll("&#39;", "\'").replaceAll("&amp;", "&").replaceAll("&quot;", "\"")
+          value.title = cleaningCodeService.cleanCode(value.title)
           value.link = value.title.replace(/[^a-zA-Z ]/g, "")
           value.link = value.link.replaceAll(" ", "-").toLowerCase()
         })

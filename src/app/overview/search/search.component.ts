@@ -19,10 +19,8 @@ export class SearchComponent implements OnInit {
   paramQuery = '';
   isItems = false;
   isClicked = false;
-  // @ts-ignore
-  form: FormGroup;
+  form!: FormGroup;
   query = ''
-
   clickState = 'end'
 
   constructor(

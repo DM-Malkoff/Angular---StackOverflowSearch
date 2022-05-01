@@ -4,8 +4,8 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 
-export class CleaningCodeService{
-  cleanCode(someName:any){
+export class CleaningCodeService {
+  cleanCode(someName: any) {
     let cleanString = someName
       .replaceAll("&#39;", "\'")
       .replaceAll("&amp;", "&")
@@ -20,5 +20,4 @@ export class CleaningCodeService{
       .replaceAll("&#235;", "ë")
     return cleanString
   }
-
 }

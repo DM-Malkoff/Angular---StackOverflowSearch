@@ -11,7 +11,7 @@
     <div class="results-amount">About {{apiLength}} results</div>
     <mat-form-field appearance="fill">
       <mat-label>Sort</mat-label>
-      <mat-select disableRipple [(value)]="selectedItem" (selectionChange) = "onSortChange($event)">
+      <mat-select disableRipple [(value)]="selectedItem" (selectionChange)="onSortChange($event)">
         <mat-option *ngFor="let item of sortQuestions" value="{{item.sortName}}">
           {{item.sortText}}
         </mat-option>
@@ -53,6 +53,6 @@
   <app-search-page-modal [authorName]="authorName"></app-search-page-modal>
 </div>
 <div class="container-loader" *ngIf="loaderService.isLoading | async">
-  <mat-spinner [diameter]="70" style="top:50%;left: 50%" ></mat-spinner>
+  <mat-spinner [diameter]="70" style="top:50%;left: 50%"></mat-spinner>
 </div>
 

@@ -4,10 +4,11 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 
-export class SortService{
+export class SortService {
   constructor() {
 
   }
+
   sortAnswers = [
     {
       sortName: 'votes',

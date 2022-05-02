@@ -36,9 +36,12 @@ export const searchFormMove = trigger('searchBlock', [
 )
 
 export const authAnimate = trigger('authForm', [
+  transition('* <=> void', [
+
+  ]),
   transition('* <=> *', [
     query(":enter, :leave", style({
-      position: 'fixed',
+      position: 'absolute',
       width: '100%',
       // left: 50%;
     }), {
@@ -69,7 +72,8 @@ export const authAnimate = trigger('authForm', [
         {optional: true}
       )
     ])
-  ])
+  ]),
+
 ])
 
 export const showTable = trigger('showTable', [

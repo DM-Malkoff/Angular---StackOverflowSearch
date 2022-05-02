@@ -49,4 +49,5 @@ input.invalid::placeholder{color: red;}
 }
 #searchBlock .row {
   --bs-gutter-x: 0rem;
+  padding: 0 15px;
 }

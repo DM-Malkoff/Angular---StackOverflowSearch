@@ -3,6 +3,7 @@ import actualUser from "./krutch-users";
 
 import {Injectable} from "@angular/core";
 import {Observable, of, tap} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,30 +14,25 @@ export class AuthService {
   isLoggedIn = false
   private token = ''
   errMessage = ''
-
-  constructor() {
-
+  newUser = {
+    email: '',
+    password: ''
   }
 
-  register(user: Users): Observable<boolean> {
-    let isRegistered = true
-    if (user.email === actualUser.email) {
-      isRegistered = false
-    }
-    return of(isRegistered)
-  }
+  constructor(
+    private router: Router
+  ) {
 
-  forgot(user: Users): Observable<boolean> {
-    let isError = false
-    if (user.email !== actualUser.email) {
-      isError = true
-    }
-    return of(isError)
   }
 
   login(user: Users): Observable<boolean> {
     console.log("user ", user.email, user.password)
-    if (user.email === actualUser.email && user.password === actualUser.password) {
+
+    if (this.newUser.email === user.email && this.newUser.password === user.password) {
+      this.isLoggedIn = true
+      this.token = 'Example-Token';
+      localStorage.setItem('auth-token', this.token)
+    } else if (user.email === actualUser.email && user.password === actualUser.password) {
       this.isLoggedIn = true
       this.token = 'Example-Token';
       localStorage.setItem('auth-token', this.token)
@@ -48,6 +44,26 @@ export class AuthService {
       }
     }
     return of(this.isLoggedIn)
+  }
+
+  register(user: Users): Observable<boolean> {
+    let isRegistered = true
+    if (user.email === actualUser.email) {
+      isRegistered = false
+    }
+    this.newUser = {
+      email: user.email,
+      password: user.password
+    }
+    return of(isRegistered)
+  }
+
+  forgot(user: Users): Observable<boolean> {
+    let isError = false
+    if (user.email !== actualUser.email) {
+      isError = true
+    }
+    return of(isError)
   }
 
   setToken(token: string) {
@@ -66,7 +82,8 @@ export class AuthService {
 
   logout() {
     this.setToken('');
-    localStorage.clear()
+    localStorage.clear();
+    this.isLoggedIn = false
   }
 }
 

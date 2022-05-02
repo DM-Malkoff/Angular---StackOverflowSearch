@@ -13,7 +13,7 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   // @ts-ignore
   form: FormGroup
   // @ts-ignore
-  subscription: Subscription
+  aSub: Subscription
   resultMessage = ''
   isError = true
 
@@ -32,9 +32,8 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.form.disable()
-    const aSub$ = this.auth.forgot(this.form.value).subscribe(
+    const aSub = this.auth.forgot(this.form.value).subscribe(
       (response) => {
-        console.log("otvet", response)
         this.isError = response
         if (this.isError) {
           this.form.enable()
@@ -44,12 +43,11 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
         }
       }
     )
-    this.subscription.add(aSub$)
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe()
+    if (this.aSub) {
+      this.aSub.unsubscribe()
     }
   }
 }

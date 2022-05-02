@@ -3,7 +3,6 @@ import actualUser from "./krutch-users";
 
 import {Injectable} from "@angular/core";
 import {Observable, of, tap} from "rxjs";
-import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +18,7 @@ export class AuthService {
     password: ''
   }
 
-  constructor(
-    private router: Router
-  ) {
+  constructor() {
 
   }
 

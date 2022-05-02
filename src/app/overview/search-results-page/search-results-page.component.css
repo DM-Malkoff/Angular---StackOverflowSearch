@@ -44,7 +44,9 @@ th.mat-sort-header-sorted {
 .table-overflow a:hover {
   text-decoration: none;
 }
-
+.table-overflow .tags{
+  padding-right: 10px;
+}
 .table-overflow .tags a {
   color: hsl(0deg 0% 100%);
   background-color: lightsteelblue;
@@ -127,22 +129,30 @@ mat-form-field::ng-deep .mat-form-field-underline {
 
 /* Используем 800px для мобильного экрана */
 @media(max-width: 800px) {
-  /* Скрываем заголовки таблицы */
-  table thead {
-    left: -9999px;
-    position: absolute;
-    visibility: hidden;
+  .container{
+    border-radius: 0;
   }
-  table tr {
-    border-bottom: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+  .table-wrap{
+    overflow-x:auto;
   }
-  table td {
+  table.table-overflow {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+  }
+  table.table-overflow tr {
+    background-color: #f8f8f8;
+  }
+  table.table-overflow th, table.table-1 td {
+    text-align: left;
+    padding: 8px;
     border: 1px solid #ddd;
-    margin: 0 -1px -1px 0; /* Удаляем двойную границу */
-    width: 50%;
+  }
+
+  table.table-overflow th{
+    font-weight: bold;
+  }
+  table.table-overflow .theme{
+    overflow-wrap: normal;
   }
 }
